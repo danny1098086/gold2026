@@ -782,7 +782,8 @@ footer ol{padding-left:1.2em}
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
       links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)});
-      var on=document.querySelector('.rail a.on'); if(on&&on.scrollIntoView){try{on.scrollIntoView({block:'nearest',inline:'center'})}catch(_){}}
+      var on=document.querySelector('.rail a.on'), bar=$('rail');
+      if(on&&bar&&bar.scrollWidth>bar.clientWidth){ bar.scrollLeft=on.offsetLeft-(bar.clientWidth-on.offsetWidth)/2; }
     }})},{rootMargin:'-45% 0px -50% 0px'});
     document.querySelectorAll('section.ch').forEach(function(s){io.observe(s)});
   }
