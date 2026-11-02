@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GOLD 2026 肺阻塞導覽</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a field-guide reading column with a sticky chapter rail; chapters follow GOLD's own 1–6 numbering, tools sit inline where the rule they compute is taught */
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --sunk:#E7ECEA; --ink:#13222A; --muted:#536369; --line:#D3DCDA;
+  --accent:#0A6C76; --accent-ink:#FFFFFF; --accent-soft:#DCEDEC;
+  --new:#A85F0A; --new-soft:#FBEBD5;
+  --ok:#2E7A48; --ok-soft:#DFF0E4; --warn:#9C6A06; --warn-soft:#F8EBCB; --bad:#B03535; --bad-soft:#F7DEDC;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1618; --surface:#162125; --sunk:#1C2A2E; --ink:#E3ECEA; --muted:#9BAEB1; --line:#2B3C40;
+  --accent:#5EC4CB; --accent-ink:#06282C; --accent-soft:#16393C;
+  --new:#E8A653; --new-soft:#3A2913;
+  --ok:#72C690; --ok-soft:#183324; --warn:#E3B851; --warn-soft:#3A2F12; --bad:#F07F7A; --bad-soft:#3D1D1C;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1618; --surface:#162125; --sunk:#1C2A2E; --ink:#E3ECEA; --muted:#9BAEB1; --line:#2B3C40;
+  --accent:#5EC4CB; --accent-ink:#06282C; --accent-soft:#16393C;
+  --new:#E8A653; --new-soft:#3A2913;
+  --ok:#72C690; --ok-soft:#183324; --warn:#E3B851; --warn-soft:#3A2F12; --bad:#F07F7A; --bad-soft:#3D1D1C;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* rail */
+.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+.rail .wrap{display:flex;gap:6px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.rail .wrap::-webkit-scrollbar{display:none}
+.rail a{flex:none;text-decoration:none;color:var(--muted);font-size:14px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.rail a b{font-family:var(--f-mono);color:var(--accent);margin-right:4px;font-weight:600}
+.rail a:hover,.rail a.on{color:var(--ink);border-color:var(--accent);background:var(--accent-soft)}
+
+/* hero */
+.hero{background:var(--surface);border-bottom:1px solid var(--line)}
+.hero .wrap{padding-block:40px 32px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:32px;align-items:end}
+.eyebrow{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(34px,6vw,56px);line-height:1.15;margin:8px 0 14px;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{color:var(--muted);max-width:34em;margin:0}
+.src{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-top:18px;padding:10px 16px;border:1px solid var(--accent);border-radius:8px;text-decoration:none;color:var(--ink);font-weight:500;background:var(--accent-soft);max-width:100%}
+.src span{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--accent);font-weight:600}
+.src:hover{background:var(--accent);color:var(--accent-ink)}
+.src:hover span{color:var(--accent-ink)}
+.loop{width:100%;height:auto;display:block}
+.loop text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+
+/* chapters */
+section.ch{padding-block:48px 8px}
+.chhead{display:flex;gap:16px;align-items:baseline;border-top:3px solid var(--ink);padding-top:14px;margin-bottom:8px}
+.chno{font-family:var(--f-mono);font-size:15px;color:var(--accent);font-weight:600;flex:none}
+h2{font-family:var(--f-display);font-weight:900;font-size:clamp(26px,4vw,34px);line-height:1.25;margin:0;text-wrap:balance}
+.chsub{color:var(--muted);margin:0 0 20px;font-size:15px}
+h3{font-size:19px;margin:36px 0 10px;line-height:1.4;text-wrap:balance}
+h3 .fig{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-weight:500;margin-left:8px;white-space:nowrap}
+p{margin:0 0 12px;max-width:42em}
+ul.pts{margin:0 0 12px;padding-left:1.2em;max-width:44em}
+ul.pts li{margin-bottom:6px}
+ul.pts li::marker{color:var(--accent)}
+.new{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--new);background:var(--new-soft);border:1px solid color-mix(in srgb,var(--new) 35%,transparent);border-radius:4px;padding:0 6px;margin-right:6px;vertical-align:2px;line-height:1.7}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:600}
+.note{font-size:14px;color:var(--muted)}
+
+/* key change ledger */
+.ledger{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.ledger li{display:grid;grid-template-columns:2.4em minmax(0,1fr);gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.ledger .k{font-family:var(--f-mono);color:var(--new);font-weight:600}
+.ledger a{color:inherit;text-decoration:none}
+.ledger a:hover{color:var(--accent)}
+
+/* tables */
+.tbl{overflow-x:auto;margin:8px 0 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:500;background:var(--sunk)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;white-space:nowrap}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* two-col fact grid */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:8px 0 16px}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:8px 0 16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0}
+.panel h4{margin:0 0 8px;font-size:16px}
+.panel ul{margin:0;padding-left:1.1em}
+.panel li{margin-bottom:4px}
+.panel.ok{border-top:4px solid var(--ok)} .panel.warn{border-top:4px solid var(--warn)} .panel.bad{border-top:4px solid var(--bad)}
+
+/* GOLD grade strip */
+.grades{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:8px 0 16px;background:var(--surface)}
+.grades div{padding:12px 14px;border-right:1px solid var(--line)}
+.grades div:last-child{border-right:0}
+.grades b{display:block;font-family:var(--f-mono);font-size:18px}
+.grades span{font-size:14px;color:var(--muted)}
+.grades .bar{height:6px;border-radius:3px;background:var(--accent);margin-top:8px}
+
+/* ABE grid */
+.abe{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:6px;max-width:560px;margin:8px 0 16px;font-size:14px}
+.abe div{border-radius:6px;padding:10px 12px}
+.abe .lab{background:var(--sunk);color:var(--muted)}
+.abe .g{background:var(--accent-soft);font-weight:700;text-align:center}
+.abe .g b{display:block;font-family:var(--f-display);font-size:28px;line-height:1.1;color:var(--accent)}
+.abe .e{grid-column:2 / 4;background:var(--new-soft)}
+.abe .e b{color:var(--new)}
+.abe .foot{background:transparent;text-align:center;color:var(--muted);padding:4px}
+
+/* flow (follow-up algorithm) */
+.flow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:16px;margin:8px 0 16px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.steps li{position:relative;padding:8px 0 14px 22px;border-left:2px solid var(--line);margin-left:6px}
+.steps li::before{content:"";position:absolute;left:-7px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.steps li:last-child{border-left-color:transparent}
+.steps .if{font-family:var(--f-mono);font-size:13px;color:var(--accent);display:block}
+
+/* tools */
+.tool{background:var(--surface);border:1px solid var(--accent);border-radius:10px;margin:20px 0 24px;overflow:hidden}
+.tool header{background:var(--accent);color:var(--accent-ink);padding:10px 18px;font-weight:700;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tool header small{font-weight:400;opacity:.85}
+.tool .body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;padding:18px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px;align-content:start}
+.fields label{display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.fields label.wide{grid-column:1 / -1}
+input[type=number],select{font:inherit;font-family:var(--f-mono);font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%}
+.chk{display:flex!important;align-items:center;gap:8px;grid-template-columns:none}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.result{border-radius:8px;padding:16px 18px;background:var(--sunk);min-width:0}
+.result .big{font-family:var(--f-display);font-weight:900;font-size:40px;line-height:1.1;margin:2px 0 6px}
+.result .tag{font-size:13px;color:var(--muted)}
+.result ul{margin:8px 0 0;padding-left:1.1em;font-size:15px}
+.result.mild{background:var(--ok-soft)} .result.mild .big{color:var(--ok)}
+.result.mod{background:var(--warn-soft)} .result.mod .big{color:var(--warn)}
+.result.sev{background:var(--bad-soft)} .result.sev .big{color:var(--bad)}
+.result.ge{background:var(--new-soft)} .result.ge .big{color:var(--new)}
+.result.ga,.result.gb{background:var(--accent-soft)} .result.ga .big,.result.gb .big{color:var(--accent)}
+.crit{list-style:none;padding:0!important;margin:10px 0 0!important}
+.crit li{display:flex;gap:8px;align-items:baseline}
+.crit li::before{content:"○";color:var(--muted);font-family:var(--f-mono)}
+.crit li.hit::before{content:"●";color:var(--warn)}
+
+/* share */
+.share{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px}
+#qr{background:#FFFFFF;padding:12px;border-radius:8px;width:max-content}
+#qr img,#qr canvas{display:block;width:200px;height:200px}
+.btn{font:inherit;font-size:15px;font-weight:700;background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.url{font-family:var(--f-mono);font-size:13px;word-break:break-all;color:var(--muted);user-select:all}
+.overlay{position:fixed;inset:0;z-index:20;background:#FFFFFF;display:grid;place-items:center;gap:16px;padding:24px;cursor:pointer}
+.overlay .bigqr img,.overlay .bigqr canvas{width:min(80vmin,560px)!important;height:min(80vmin,560px)!important}
+.overlay p{color:#13222A;font-family:var(--f-body);font-size:20px;text-align:center;margin:0}
+
+footer{padding-block:40px 56px;color:var(--muted);font-size:14px}
+footer ol{padding-left:1.2em}
+
+@media (max-width:760px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);gap:20px;padding-block:28px 24px}
+  .ledger,.duo,.trio,.flow,.tool .body{grid-template-columns:minmax(0,1fr)}
+  .grades{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grades div:nth-child(2){border-right:0}
+  .grades div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .share{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}
+}
+@media (max-width:420px){.fields{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head>
+<body>
+
+
+<nav class="rail" aria-label="章節">
+  <div class="wrap" id="rail">
+    <a href="#new"><b>★</b>2026 更新</a>
+    <a href="#ch1"><b>1</b>定義與病因</a>
+    <a href="#ch2"><b>2</b>診斷與評估</a>
+    <a href="#ch3"><b>3</b>穩定期治療</a>
+    <a href="#ch4"><b>4</b>急性惡化</a>
+    <a href="#ch5"><b>5</b>共病</a>
+    <a href="#ch6"><b>6</b>AI 與新科技</a>
+    <a href="#share"><b>QR</b>分享</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Global Initiative for Chronic Obstructive Lung Disease · 2026 Report</div>
+      <h1>GOLD 2026<br><span>肺阻塞</span>重點導覽</h1>
+      <p class="lede">依 GOLD 2026 報告與口袋指引整理的中文教學摘要，涵蓋六個章節、新增重點與兩個臨床計算工具。手機掃描即可在課堂中隨時對照。</p>
+      <a class="src" href="https://goldcopd.org/2026-gold-report-and-pocket-guide/" target="_blank" rel="noopener"><span>官方原文</span>GOLD 2026 Report 與 Pocket Guide 下載頁 ↗</a>
+    </div>
+    <svg class="loop" viewBox="0 0 360 190" role="img" aria-label="正常與阻塞型肺量計曲線示意">
+      <line x1="34" y1="160" x2="350" y2="160" stroke="var(--line)" stroke-width="1"/>
+      <line x1="34" y1="14" x2="34" y2="160" stroke="var(--line)" stroke-width="1"/>
+      <path d="M34 160 C 50 70, 70 40, 110 32 S 200 26, 340 26" fill="none" stroke="var(--muted)" stroke-width="2"/>
+      <path d="M34 160 C 52 120, 80 96, 130 84 S 240 70, 340 66" fill="none" stroke="var(--accent)" stroke-width="3"/>
+      <line x1="87" y1="160" x2="87" y2="14" stroke="var(--new)" stroke-width="1" stroke-dasharray="3 4"/>
+      <text x="92" y="22">1 秒</text>
+      <text x="236" y="20">正常 FEV1/FVC ≈ 0.80</text>
+      <text x="206" y="58" style="fill:var(--accent)">阻塞 FEV1/FVC ≈ 0.56</text>
+      <text x="36" y="178">時間 (秒) →</text>
+      <text x="6" y="20" transform="rotate(-90 12 20)" text-anchor="end">容積 (L)</text>
+    </svg>
+  </div>
+</header>
+
+<main>
+<section class="ch wrap" id="new">
+  <div class="chhead"><span class="chno">2026</span><h2>本版主要更新</h2></div>
+  <p class="chsub">2026 年版是大幅修訂：新增 330 篇文獻、14 張新圖表，並把大量內容移到附錄 1–4 以減少重複。</p>
+  <ol class="ledger">
+    <li><span class="k">01</span><a href="#abe">ABE 分組門檻下修：過去一年 <b>≥1 次</b>中度或重度惡化即屬 E 組</a></li>
+    <li><span class="k">02</span><a href="#activity">新增「疾病活性」章節，治療目標是低活性、無惡化</a></li>
+    <li><span class="k">03</span><a href="#rx">藥物治療明確區分「初始治療」與「追蹤治療」流程</a></li>
+    <li><span class="k">04</span><a href="#bio">新增生物製劑證據表：Dupilumab、Mepolizumab</a></li>
+    <li><span class="k">05</span><a href="#vac">RSV 疫苗建議年齡下修至 ≥50 歲</a></li>
+    <li><span class="k">06</span><a href="#case">篩檢與個案發現：新增漏診因素與 case-finding 流程</a></li>
+    <li><span class="k">07</span><a href="#ch4">第 4 章急性惡化全面改寫，採 Rome 嚴重度分級</a></li>
+    <li><span class="k">08</span><a href="#ch5">第 5 章改為「多重共病」，導入 4Ms 照護架構</a></li>
+    <li><span class="k">09</span><a href="#ch6">新增第 6 章：人工智慧與新興科技</a></li>
+    <li><span class="k">10</span><a href="#ch2">CAT 更名為 CAAT（分數可互換）、新增縮寫表</a></li>
+  </ol>
+</section>
+
+<!-- CHAPTER 1 -->
+<section class="ch wrap" id="ch1">
+  <div class="chhead"><span class="chno">CH 1</span><h2>定義與病因</h2></div>
+  <p class="chsub">COPD 已是全球前三大死因之一，2021 年逾 300 萬人死亡、占全球死亡 5%，近 90% 發生在中低收入國家。</p>
+
+  <h3>定義</h3>
+  <p>COPD 是一種異質性肺部疾病，表現為慢性呼吸道症狀（呼吸困難、咳嗽、痰、急性惡化），源自呼吸道（支氣管炎、細支氣管炎）和/或肺泡（肺氣腫）的異常，造成持續且常為進行性的氣流阻塞。</p>
+  <ul class="pts">
+    <li><b>診斷標準：</b>在合適的臨床情境下，支氣管擴張劑後 <span class="num">FEV1/FVC &lt; 0.7</span> 即可確診。</li>
+    <li><b>GETomics：</b>基因（G）與環境（E）在一生時間（T）中交互作用，影響肺部發育與老化。</li>
+    <li><b>前驅狀態：</b>pre-COPD 與 PRISm（比值保留但肺功能受損）提供早期預防與介入的機會。</li>
+    <li>肺功能有多種生命歷程軌跡：童年發育不良、追趕生長、正常、早期衰退加速等，並非只有吸菸者才會得病。</li>
+  </ul>
+
+  <h3>病因分類（Etiotypes）<span class="fig">Fig 1.3</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>分類</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td>COPD-G 遺傳</td><td>α1-抗胰蛋白酶缺乏（AATD），或多個小效應基因變異的組合</td></tr>
+      <tr><td>COPD-D 肺發育異常</td><td>早期生命事件，例如早產、低出生體重</td></tr>
+      <tr><td>COPD-C 吸菸</td><td>菸草暴露（含胎內、二手菸）、電子菸、大麻</td></tr>
+      <tr><td>COPD-P 生質燃料與污染</td><td>室內燃料、戶外空污、野火煙霧、職業危害</td></tr>
+      <tr><td>COPD-I 感染</td><td>兒童期感染、結核相關 COPD、HIV 相關 COPD</td></tr>
+      <tr><td>COPD-A 合併氣喘</td><td>特別是兒童期氣喘</td></tr>
+      <tr><td>COPD-U 原因不明</td><td>—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="ch wrap" id="ch2">
+  <div class="chhead"><span class="chno">CH 2</span><h2>診斷、評估與監測</h2></div>
+  <p class="chsub">有症狀或暴露史就要想到 COPD，但一定要用肺量計確診。</p>
+
+  <h3>何時考慮診斷 <span class="fig">Fig 2.1</span></h3>
+  <div class="duo">
+    <div class="panel"><h4>臨床線索</h4><ul>
+      <li>呼吸困難：漸進、運動時加重、持續存在</li>
+      <li>反覆喘鳴</li>
+      <li>慢性咳嗽（可間歇、可無痰）</li>
+      <li>反覆下呼吸道感染</li></ul></div>
+    <div class="panel"><h4>危險因子</h4><ul>
+      <li>菸草（含地方性菸品）</li>
+      <li>家中烹調與取暖燃料煙霧</li>
+      <li>職業粉塵、蒸氣、煙霧、化學物</li>
+      <li>宿主因素：基因、發育異常、低出生體重、早產、兒童呼吸道感染</li></ul></div>
+  </div>
+  <p class="note">需鑑別：氣喘、心衰竭、支氣管擴張症、結核、阻塞性細支氣管炎、瀰漫性泛細支氣管炎。其他慢性咳嗽原因包括鼻涕倒流、胃食道逆流、ACEI 藥物等。</p>
+
+  <h3>肺量計確診流程 <span class="fig">Fig 2.6</span></h3>
+  <ol class="steps">
+    <li><span class="if">先測 pre-BD FEV1/FVC</span>若 <span class="num">≥ 0.7</span> → 不是 COPD（pre-BD 可用來排除診斷）。但若懷疑容積反應者（FEV1 低或症狀重），仍應補做 post-BD。</li>
+    <li><span class="if">pre-BD &lt; 0.7 → 測 post-BD</span>post-BD <span class="num">≥ 0.7</span>：屬「流量反應」，需追蹤重複評估。</li>
+    <li><span class="if">post-BD &lt; 0.7</span><b>確診 COPD。</b></li>
+  </ol>
+  <p class="note">支擴劑測試：短效 β2 致效劑 400 mcg、短效抗膽鹼 160 mcg 或兩者併用；β2 致效劑後 10–15 分鐘、抗膽鹼後 30–45 分鐘測量。三次可接受曲線的 FVC 與 FEV1 差異應 ≤ 5% 或 150 mL。</p>
+
+  <h3>氣流阻塞嚴重度 <span class="fig">Fig 2.10</span></h3>
+  <div class="grades">
+    <div><b>GOLD 1</b><span>輕度 · FEV1 ≥ 80%</span><div class="bar" style="width:100%"></div></div>
+    <div><b>GOLD 2</b><span>中度 · 50–79%</span><div class="bar" style="width:72%"></div></div>
+    <div><b>GOLD 3</b><span>重度 · 30–49%</span><div class="bar" style="width:45%"></div></div>
+    <div><b>GOLD 4</b><span>極重度 · &lt; 30%</span><div class="bar" style="width:22%"></div></div>
+  </div>
+
+  <h3>症狀評估</h3>
+  <div class="duo">
+    <div class="panel"><h4>mMRC 呼吸困難量表 <span class="note">0–4</span></h4><ul>
+      <li><span class="num">0</span> 劇烈運動才喘</li>
+      <li><span class="num">1</span> 快走或爬小坡會喘</li>
+      <li><span class="num">2</span> 走得比同齡慢，或平地自己步調也要停下喘氣</li>
+      <li><span class="num">3</span> 平地走約 100 公尺或幾分鐘就要停</li>
+      <li><span class="num">4</span> 喘到無法出門，或穿脫衣服就喘</li></ul></div>
+    <div class="panel"><h4>CAAT™ 評估 <span class="note">0–40</span></h4>
+      <p style="margin:0 0 8px">原名 CAT，2026 年更名為 Chronic Airways Assessment Test，兩者分數相同可互換。8 題、每題 0–5 分：咳嗽、痰、胸悶、爬坡喘、居家活動、出門信心、睡眠、精力。</p>
+      <p class="note" style="margin:0">分組切點：<span class="num">CAAT ≥ 10</span> 視為症狀多。</p></div>
+  </div>
+
+  <h3 id="abe"><span class="new">2026 修訂</span>GOLD ABE 評估工具 <span class="fig">Fig 2.13</span></h3>
+  <p>E 組門檻從「≥2 次中度或 ≥1 次住院」下修為「過去一年 <b>≥1 次中度或重度惡化</b>」。觀察性研究顯示，在開始維持治療前，即使只有一次中度惡化，之後再惡化的風險也會上升。</p>
+  <div class="abe" aria-label="ABE 分組格">
+    <div class="lab">過去一年 ≥1 次中度或重度惡化</div>
+    <div class="g e"><b>E</b></div>
+    <div class="lab">0 次中度或重度惡化</div>
+    <div class="g"><b>A</b></div>
+    <div class="g"><b>B</b></div>
+    <div class="foot"></div>
+    <div class="foot">mMRC 0–1<br>CAAT &lt; 10</div>
+    <div class="foot">mMRC ≥ 2<br>CAAT ≥ 10</div>
+  </div>
+
+  <div class="tool" id="tool-abe">
+    <header>工具 1 · ABE 分組與初始治療建議 <small>適用未曾接受維持治療的病人</small></header>
+    <div class="body">
+      <div class="fields">
+        <label>過去一年中度惡化次數<input type="number" id="a-mod" min="0" max="20" value="1" inputmode="numeric"></label>
+        <label>過去一年住院（重度）次數<input type="number" id="a-sev" min="0" max="20" value="0" inputmode="numeric"></label>
+        <label>mMRC 分級<select id="a-mmrc"><option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option></select></label>
+        <label>CAAT 分數<input type="number" id="a-caat" min="0" max="40" value="14" inputmode="numeric"></label>
+        <label class="wide">血中嗜酸性球（cells/µL，可空白）<input type="number" id="a-eos" min="0" max="3000" value="320" inputmode="numeric"></label>
+      </div>
+      <div class="result" id="a-out" aria-live="polite"></div>
+    </div>
+  </div>
+  <p class="note">範例數值僅供示範。症狀分組以 CAAT 為優先；mMRC 與 CAAT 結果不一致時，工具採較嚴重的一側。</p>
+
+  <h3 id="case"><span class="new">2026 新增</span>漏診原因與個案發現 <span class="fig">Fig 2.8–2.9</span></h3>
+  <div class="trio">
+    <div class="panel"><h4>病人因素</h4><ul><li>低估或少報症狀</li><li>主動減少活動來避免喘</li><li>早期病情輕微</li></ul></div>
+    <div class="panel"><h4>醫療體系因素</h4><ul><li>肺量計可近性差</li><li>就醫可近性不均（高收入國家也有）</li><li>中低收入國家人力與訓練不足</li></ul></div>
+    <div class="panel"><h4>醫療人員因素</h4><ul><li>不熟悉診斷標準</li><li>肺量計操作與判讀訓練不足</li><li>未安排檢查或轉介</li></ul></div>
+  </div>
+  <ol class="steps">
+    <li><span class="if">對象</span><b>高風險者：</b>年齡 ≥ 35 歲、菸草或室內外空污/職業暴露、遺傳因素、早產與早期不利因素、有呼吸道症狀。<br><b>標的族群：</b>如接受肺癌篩檢，或影像偶然發現肺實質/呼吸道異常者，可直接進入專科確認。</li>
+    <li><span class="if">篩檢問卷</span>LFQ、CDQ、COPD-PS、PUMA、CAPTURE 等。</li>
+    <li><span class="if">問卷陽性 → 基層</span>可用手持裝置（PEF、COPD-6、PIKO-6）初篩。</li>
+    <li><span class="if">陽性 → 專科</span>pre-BD 肺量計確認，陽性者做 post-BD 並進入完整 COPD 照護；陰性者持續監測症狀並處理危險因子。</li>
+  </ol>
+
+  <h3>電腦斷層的角色 <span class="fig">Fig 2.14</span></h3>
+  <ul class="pts">
+    <li><b>鑑別診斷：</b>惡化頻繁且痰多（疑支氣管擴張或非典型感染）、症狀與肺功能不成比例。</li>
+    <li><b>肺容積縮減評估：</b>支氣管內瓣膜適用 post-BD FEV1 介於 <span class="num">15–45%</span> 且有過度充氣；LVRS 適用上葉為主肺氣腫、復健後運動能力低者。</li>
+    <li><b>肺癌篩檢：</b>因吸菸致病者，依一般族群建議每年低劑量 CT。</li>
+  </ul>
+</section>
+
+<!-- CHAPTER 3 -->
+<section class="ch wrap" id="ch3">
+  <div class="chhead"><span class="chno">CH 3</span><h2>預防與穩定期治療</h2></div>
+  <p class="chsub">治療兩大目標：減少症狀（緩解症狀、提升運動耐受、改善健康狀態），以及降低風險（預防惡化、延緩進展、降低死亡）。</p>
+
+  <h3 id="activity"><span class="new">2026 新增</span>疾病活性（Disease activity）</h3>
+  <p>參考類風濕性關節炎、發炎性腸病等慢性發炎疾病的做法，GOLD 2026 把「疾病活性」定義為導致病理結果、且可經治療逆轉的生物路徑。治療目標轉向主動追求低疾病活性：沒有惡化、症狀與肺功能穩定。</p>
+  <div class="duo">
+    <div class="panel"><h4>如何監測活性</h4><ul>
+      <li>生物標記：血中嗜酸性球（第 2 型發炎）</li>
+      <li>臨床：惡化、症狀惡化、肺功能下降速度</li>
+      <li>影像：呼吸道黏液栓</li></ul></div>
+    <div class="panel"><h4>臨床意義</h4><ul>
+      <li>不再等待多次惡化才升階</li>
+      <li>一次中度惡化就應考慮加強治療</li>
+      <li>以縱向追蹤取代單點評估</li></ul></div>
+  </div>
+
+  <h3>戒菸與減少暴露 <span class="fig">Fig 3.3–3.5</span></h3>
+  <ul class="pts">
+    <li>所有 COPD 病人都應積極推動戒菸（證據 A）；改善通風、使用無污染爐具（證據 B）。</li>
+    <li>5A 策略：Ask 每次就診詢問、Advise 明確勸戒、Assess 評估意願（如 30 天內）、Assist 協助計畫與藥物、Arrange 安排追蹤。</li>
+    <li>第一線藥物：varenicline、bupropion SR、nortriptyline、尼古丁貼片/口香糖/吸入劑/鼻噴劑。目前沒有證據支持電子菸作為戒菸工具。</li>
+  </ul>
+
+  <h3 id="vac"><span class="new">RSV 更新</span>疫苗建議 <span class="fig">Fig 3.6</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>疫苗</th><th>建議</th><th>證據</th></tr></thead>
+    <tbody>
+      <tr><td>流感</td><td>每年接種</td><td class="n">B</td></tr>
+      <tr><td>COVID-19</td><td>依 WHO、CDC 最新建議</td><td class="n">B</td></tr>
+      <tr><td>肺炎鏈球菌</td><td>PCV21 一劑，或 PCV20 一劑；可降低社區型肺炎與惡化</td><td class="n">B</td></tr>
+      <tr><td>RSV</td><td><b>≥ 50 歲</b>和/或有慢性心肺疾病（舊版為 ≥ 60 歲）</td><td class="n">A</td></tr>
+      <tr><td>Tdap</td><td>青少年期未接種者，預防百日咳、破傷風、白喉</td><td class="n">B</td></tr>
+      <tr><td>帶狀疱疹</td><td>&gt; 50 歲</td><td class="n">B</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 id="rx"><span class="new">2026 修訂</span>藥物治療：初始 vs 追蹤 <span class="fig">Fig 3.7–3.9</span></h3>
+  <p>先問「病人是否從未使用維持治療？」是 → 依 ABE 分組給初始治療；否 → 回顧症狀與惡化、檢查吸入技巧與遵從性、非藥物治療與其他疾病，再進入追蹤治療流程。</p>
+  <div class="trio">
+    <div class="panel"><h4>A 組</h4><p style="margin:0">一種支氣管擴張劑</p></div>
+    <div class="panel"><h4>B 組</h4><p style="margin:0">LABA + LAMA（單一吸入器較方便、遵從性較佳）</p></div>
+    <div class="panel" style="border-color:var(--new)"><h4>E 組</h4><p style="margin:0">LABA + LAMA；若 eos ≥ 300，考慮 LABA + LAMA + ICS</p></div>
+  </div>
+  <p class="note">已在使用藥物且反應良好者，維持原治療；只在呼吸困難或惡化需要時才調整。</p>
+
+  <div class="flow">
+    <div class="panel"><h4>若持續呼吸困難</h4>
+      <ol class="steps">
+        <li>LABA 或 LAMA</li>
+        <li>→ LABA + LAMA</li>
+        <li>仍喘：更換吸入器或藥物分子、加強非藥物治療、考慮加 <b>ensifentrine</b>、排查其他呼吸困難原因</li>
+      </ol></div>
+    <div class="panel"><h4>若有 ≥1 次中度或重度惡化</h4>
+      <ol class="steps">
+        <li><span class="if">LABA 或 LAMA</span>eos &lt; 300 → LABA + LAMA；eos ≥ 300 → LABA + LAMA + ICS</li>
+        <li><span class="if">LABA + LAMA 仍惡化</span>eos ≥ 100 → 加 ICS 成三合一；eos &lt; 100 → 走下一步</li>
+        <li><span class="if">三合一或 eos &lt; 100 仍惡化</span>Roflumilast（FEV1 &lt; 50% 且慢性支氣管炎）或 Azithromycin（以戒菸者優先）</li>
+        <li><span class="if">三合一下 2 次中度或 1 次重度惡化，且 eos ≥ 300</span><b>生物製劑</b>：Dupilumab（有慢性支氣管炎者）或 Mepolizumab</li>
+      </ol></div>
+  </div>
+  <p class="note">若出現肺炎或其他明顯副作用，可考慮 ICS 降階；但 eos ≥ 300 者降階後較可能再惡化。</p>
+
+  <h3>何時加 ICS <span class="fig">Fig 3.10</span></h3>
+  <div class="trio">
+    <div class="panel ok"><h4>強烈支持</h4><ul><li>曾因惡化住院</li><li>每年 ≥ 2 次中度惡化</li><li>eos ≥ 300</li><li>曾有或合併氣喘</li></ul></div>
+    <div class="panel warn"><h4>支持</h4><ul><li>每年 1 次中度惡化</li><li>eos 100 至 &lt; 300</li></ul></div>
+    <div class="panel bad"><h4>反對</h4><ul><li>反覆肺炎</li><li>eos &lt; 100</li><li>分枝桿菌感染病史</li></ul></div>
+  </div>
+  <p class="note">嗜酸性球數值是連續變化，以上為參考切點，且會波動。已使用 LABA+ICS 者：無惡化且症狀輕可續用；症狀多或無惡化史可考慮改 LABA+LAMA；仍惡化且 eos ≥ 100 則升階為三合一（Fig 3.12）。</p>
+
+  <h3 id="bio"><span class="new">2026 新增</span>生物製劑證據 <span class="fig">Fig 3.11</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>藥物 / 試驗</th><th>主要收案條件</th><th>中重度惡化率</th><th>FEV1 變化</th></tr></thead>
+    <tbody>
+      <tr><td>Dupilumab BOREAS</td><td>FEV1 30–70%、慢性支氣管炎、eos ≥ 300</td><td class="n">RR 0.70</td><td class="n">+83 mL</td></tr>
+      <tr><td>Dupilumab NOTUS</td><td>同上</td><td class="n">RR 0.66</td><td class="n">+62 mL</td></tr>
+      <tr><td>Mepolizumab METREX</td><td>FEV1 20–80%、eos ≥ 150 或前一年 ≥ 300</td><td class="n">RR 0.82</td><td class="n">NS</td></tr>
+      <tr><td>Mepolizumab METREO</td><td>同上</td><td class="n">RR 0.80 (NS)</td><td class="n">NS</td></tr>
+      <tr><td>Mepolizumab MATINEE</td><td>FEV1 20–80%、eos ≥ 300 且前一年 ≥ 150</td><td class="n">RR 0.79</td><td class="n">NS</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">所有試驗都收已用三合一仍惡化的病人；Dupilumab 300 mg 每 2 週，Mepolizumab 100 mg 每 4 週。各試驗族群不同，不能直接比較。</p>
+
+  <h3>吸入器選擇 <span class="fig">Fig 3.13–3.14</span></h3>
+  <ul class="pts">
+    <li>吸入治療成敗取決於衛教：開立時示範、每次回診重新檢查技巧。判定藥物無效前，先確認技巧與遵從性。</li>
+    <li>DPI：病人須能用力深吸。MDI（及部分 SMI）：須能協調按壓並慢而深地吸，必要時加吸藥輔助器；都做不到者考慮霧化器。</li>
+    <li>盡量減少同一病人的裝置種類；無臨床理由不要隨意換裝置；醫師應只開自己與團隊熟悉的裝置。</li>
+  </ul>
+
+  <h3>非藥物治療 <span class="fig">Fig 3.15–3.16</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>分組</th><th>必要</th><th>建議</th><th>依當地指引</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>戒菸</td><td>身體活動</td><td>流感、COVID-19、肺炎鏈球菌、百日咳、帶狀疱疹、RSV 疫苗</td></tr>
+      <tr><td>B、E</td><td>戒菸、肺部復健</td><td>身體活動</td><td>同上</td></tr>
+    </tbody>
+  </table></div>
+  <p>肺部復健（運動訓練加疾病衛教）在各嚴重度都能改善運動能力、症狀與生活品質。追蹤時依主要可治療特徵調整：以呼吸困難為主者，著重書面行動計畫、呼吸與節能技巧、壓力管理；以惡化為主者，著重避免誘因、自我監測與何時聯絡醫療團隊。</p>
+
+  <h3>氧氣與通氣支持 <span class="fig">Fig 3.17–3.18</span></h3>
+  <div class="duo">
+    <div class="panel"><h4>長期氧氣治療（LTOT）</h4><ul>
+      <li>適應症：<span class="num">PaO2 ≤ 55 mmHg</span> 或 <span class="num">SaO2 &lt; 88%</span>；或 <span class="num">PaO2 55–60 mmHg</span> 合併肺高壓、心衰竭或紅血球增多（Hct &gt; 55%）</li>
+      <li>調整使 <span class="num">SaO2 ≥ 90%</span></li>
+      <li><span class="num">60–90 天</span>後重新評估是否仍需要、是否有效</li>
+      <li>中度休息或運動時血氧下降者，LTOT 不延長存活（證據 A）</li>
+      <li>海平面血氧足夠者搭機仍可能嚴重缺氧</li></ul></div>
+    <div class="panel"><h4>長期非侵襲性通氣（NIV）</h4><ul>
+      <li>近期住院後、日間持續高碳酸 <span class="num">PaCO2 &gt; 53 mmHg</span> 者，NPPV 可改善無住院存活（證據 B）</li>
+      <li>嚴重慢性高碳酸且曾因急性呼吸衰竭住院者，可考慮長期 NIV</li></ul></div>
+  </div>
+
+  <h3>可降低死亡率的治療 <span class="fig">Fig 3.19</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>治療</th><th>效果</th><th>適用族群</th></tr></thead>
+    <tbody>
+      <tr><td>單一吸入器三合一</td><td>相較雙支擴：IMPACT HR 0.72、ETHOS HR 0.51</td><td>有症狀且常惡化或重度惡化</td></tr>
+      <tr><td>戒菸</td><td>持續吸菸組死亡 HR 1.18</td><td>無症狀或輕症</td></tr>
+      <tr><td>肺部復健</td><td>出院後 4 週內開始最有證據</td><td>COPD 住院者</td></tr>
+      <tr><td>LTOT</td><td>每日 ≥ 15–19 小時，死亡約減半</td><td>嚴重靜止低血氧</td></tr>
+      <tr><td>NIV（高 IPAP）</td><td>HR 0.24</td><td>穩定期明顯高碳酸</td></tr>
+      <tr><td>LVRS</td><td>死亡 RR 0.47</td><td>上葉肺氣腫且運動能力低</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>介入、手術與安寧照護 <span class="fig">Fig 3.20–3.23</span></h3>
+  <ul class="pts">
+    <li><b>支氣管鏡：</b>支氣管內瓣膜（A）、線圈（B）、蒸氣消融（B）可降低殘氣、改善運動耐受與生活品質。冷凍噴霧、rheoplasty、標靶肺去神經支配仍在第三期試驗。</li>
+    <li><b>肺移植轉介：</b>BODE 7–10 且不適合 LVRS，並有下列之一：因急性高碳酸（PaCO2 &gt; 50）住院、肺高壓或肺心症、FEV1 &lt; 20% 合併 DLco &lt; 20% 或均質性肺氣腫。</li>
+    <li><b>安寧：</b>鴉片類、神經肌肉電刺激、氧氣、對臉吹風扇可緩解喘；營養不良者補充營養；應及早討論預立醫療決定。</li>
+  </ul>
+</section>
+
+<!-- CHAPTER 4 -->
+<section class="ch wrap" id="ch4">
+  <div class="chhead"><span class="chno">CH 4</span><h2>急性惡化</h2></div>
+  <p class="chsub"><span class="new">2026 全面改寫</span>惡化是數天內（最長 14 天）呼吸困難和/或咳痰加重的急性事件，可伴隨呼吸急促或心搏過速。</p>
+
+  <h3>先排除擬似情況 <span class="fig">Fig 4.3</span></h3>
+  <div class="duo">
+    <div class="panel"><h4>最常見</h4><ul>
+      <li>急性病毒或細菌性支氣管炎：病原檢測、胸部 X 光</li>
+      <li>心衰竭：X 光或 CT、NT-proBNP / BNP、心臟超音波</li>
+      <li>心肌梗塞、心律不整：心電圖、Troponin</li>
+      <li>肺栓塞：臨床機率評估、D-dimer、CT 血管攝影</li>
+      <li>肺炎：病原檢測、X 光或 CT、肺部超音波</li></ul></div>
+    <div class="panel"><h4>較少見</h4><ul><li>氣胸：X 光或 CT、胸腔超音波</li></ul>
+      <h4 style="margin-top:14px">評估五步驟 <span class="note">Fig 4.1</span></h4><ul>
+      <li>完整臨床評估</li><li>以 VAS 評呼吸困難；記錄呼吸、心跳、痰量與顏色、輔助肌使用</li>
+      <li>血氧、eos、CRP、病原、動脈血氣</li><li>找出誘因</li><li>決定照護場所</li></ul></div>
+  </div>
+
+  <h3>Rome 嚴重度分級 <span class="fig">Fig 4.2</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>分級</th><th>判定</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--ok)">輕度（預設）</td><td>VAS &lt; 5、RR &lt; 24、HR &lt; 95、靜止 SaO2 ≥ 92% 且變化 ≤ 3%、CRP &lt; 10 mg/L</td></tr>
+      <tr><td style="color:var(--warn)">中度（5 項中 ≥ 3 項）</td><td>VAS ≥ 5、RR ≥ 24、HR ≥ 95、SaO2 &lt; 92% 和/或變化 &gt; 3%、CRP ≥ 10；ABG 可能 PaO2 70–80</td></tr>
+      <tr><td style="color:var(--bad)">重度</td><td>同中度，且 ABG 有 PaO2 ≤ 60 和/或高碳酸合併酸中毒（PaCO2 &gt; 45 且 pH &lt; 7.35）</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tool" id="tool-rome">
+    <header>工具 2 · 惡化嚴重度計算（Rome） <small>SaO2 以室內空氣或病人平常氧氣處方為準</small></header>
+    <div class="body">
+      <div class="fields">
+        <label>呼吸困難 VAS（0–10）<input type="number" id="r-vas" min="0" max="10" value="6" inputmode="decimal"></label>
+        <label>呼吸速率（次/分）<input type="number" id="r-rr" min="0" max="80" value="26" inputmode="numeric"></label>
+        <label>心跳（次/分）<input type="number" id="r-hr" min="0" max="220" value="92" inputmode="numeric"></label>
+        <label>靜止 SaO2（%）<input type="number" id="r-sat" min="50" max="100" value="90" inputmode="numeric"></label>
+        <label class="chk wide"><input type="checkbox" id="r-chg"> SaO2 較平時下降 &gt; 3%</label>
+        <label>CRP（mg/L，可空白）<input type="number" id="r-crp" min="0" max="500" value="" inputmode="decimal"></label>
+        <label>PaO2（mmHg，可空白）<input type="number" id="r-pao2" min="20" max="200" value="" inputmode="numeric"></label>
+        <label>PaCO2（mmHg，可空白）<input type="number" id="r-paco2" min="10" max="150" value="" inputmode="numeric"></label>
+        <label>pH（可空白）<input type="number" id="r-ph" min="6.8" max="7.8" step="0.01" value="" inputmode="decimal"></label>
+      </div>
+      <div class="result" id="r-out" aria-live="polite"></div>
+    </div>
+  </div>
+  <p class="note">CRP 或血氣未測時，該項視為未達標。工具用於教學示範，臨床決策請結合完整評估。</p>
+
+  <h3>照護場所 <span class="fig">Fig 4.4</span></h3>
+  <div class="trio">
+    <div class="panel ok"><h4>門診</h4><ul><li>輕度惡化</li><li>共病少</li><li>病人能配合</li><li>居家支持良好</li></ul></div>
+    <div class="panel warn"><h4>住院</h4><ul><li>呼吸衰竭徵象：RR 上升、輔助肌、低血氧或高碳酸惡化、意識改變</li><li>初始治療無效</li><li>嚴重共病（心衰竭、心律不整）</li><li>居家支持不足</li></ul></div>
+    <div class="panel bad"><h4>呼吸或內科加護</h4><ul><li>呼吸器支持下仍持續或惡化的低血氧/高碳酸</li><li>意識持續惡化</li><li>需要侵襲性呼吸器</li><li>血行動力不穩需升壓劑</li></ul></div>
+  </div>
+
+  <h3>藥物治療重點 <span class="fig">Fig 4.5–4.6</span></h3>
+  <ul class="pts">
+    <li><b>支擴劑：</b>短效 β2 致效劑 ± 短效抗膽鹼為首選（證據 C）；可用吸藥輔助器或空氣驅動霧化器；穩定後盡快開始長效支擴劑。</li>
+    <li><b>全身性類固醇：</b>改善 FEV1、氧合、縮短恢復與住院，療程 <span class="num">5 天</span>（證據 A）。</li>
+    <li><b>抗生素：</b>膿痰、先前痰培養陽性、或需呼吸器者使用，療程 <span class="num">5 天</span>（證據 A/B）。</li>
+    <li><b>不建議 methylxanthines</b>，副作用多。</li>
+    <li>全程監測體液、考慮皮下肝素或低分子量肝素預防血栓、處理心衰竭與心律不整等相關疾病。</li>
+    <li>出院時開始長效支擴劑；若 ≥ 1 次中重度惡化且 eos 偏高，考慮加 ICS。</li>
+  </ul>
+
+  <h3>呼吸支持適應症 <span class="fig">Fig 4.7–4.9</span></h3>
+  <p>急性低血氧呼吸衰竭以 <b>HFNT 為第一線</b>；高碳酸呼吸衰竭或 HFNT 無效者，除非絕對禁忌，改用 NIV（證據 A）。</p>
+  <div class="trio">
+    <div class="panel"><h4><span class="new">新增</span>HFNT（任一）</h4><ul>
+      <li>持續低血氧</li><li>無法耐受 NIV</li><li>NIV 禁忌</li><li>脫離 NIV 後的氧氣銜接</li><li>插管後預防再插管</li><li>有惡化風險的穩定期病人</li></ul></div>
+    <div class="panel"><h4>NIV（任一）</h4><ul>
+      <li>呼吸性酸中毒：<span class="num">PaCO2 ≥ 45 mmHg</span> 且 <span class="num">pH ≤ 7.35</span></li>
+      <li>嚴重呼吸困難並有呼吸肌疲勞或呼吸功增加（輔助肌、腹部矛盾運動、肋間凹陷）</li>
+      <li>給氧後仍持續低血氧</li></ul></div>
+    <div class="panel"><h4>侵襲性呼吸器（任一）</h4><ul>
+      <li>HFNT 或 NIV 下仍危及生命的低血氧</li><li>無法耐受 HFNT 和/或 NIV</li><li>呼吸或心跳停止後</li><li>意識下降或躁動無法鎮靜控制</li><li>大量吸入或持續嘔吐</li><li>無法清除呼吸道分泌物</li><li>輸液與升壓劑無效的嚴重血行動力不穩</li><li>嚴重心室或上心室心律不整</li></ul></div>
+  </div>
+
+  <h3>出院與追蹤 <span class="fig">Fig 4.10</span></h3>
+  <ul class="pts">
+    <li>出院前：檢視臨床與檢驗資料、調整維持治療（eos 偏高者以三合一出院）、再教吸入技巧、確認會停用急性藥物、評估是否續用氧氣、提供管理計畫、安排共病追蹤。</li>
+    <li><b>1–4 週追蹤：</b>生活適應、治療理解、吸入技巧、氧氣需求、活動能力與<b>肺部復健轉介</b>、CAAT 或 mMRC、共病狀態。</li>
+    <li><b>12–16 週追蹤：</b>上述項目加上肺量計 FEV1。</li>
+    <li>惡化後恢復可能需要 4–6 週，部分病人回不到原本的功能。</li>
+  </ul>
+
+  <h3>降低惡化頻率的介入 <span class="fig">Fig 4.11</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>類別</th><th>介入</th></tr></thead>
+    <tbody>
+      <tr><td>支擴劑</td><td>LABA、LAMA、LABA + LAMA</td></tr>
+      <tr><td>含類固醇</td><td>LABA + LAMA + ICS</td></tr>
+      <tr><td>非類固醇抗發炎</td><td>Roflumilast、Dupilumab、Mepolizumab</td></tr>
+      <tr><td>抗感染</td><td>疫苗、長期巨環類抗生素</td></tr>
+      <tr><td>黏液調節</td><td>N-acetylcysteine、Carbocysteine、Erdosteine</td></tr>
+      <tr><td>其他</td><td>戒菸、復健、肺容積縮減、維生素 D、防護措施（口罩、減少接觸、勤洗手）</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CHAPTER 5 -->
+<section class="ch wrap" id="ch5">
+  <div class="chhead"><span class="chno">CH 5</span><h2>COPD 與多重共病</h2></div>
+  <p class="chsub"><span class="new">2026 全面改寫</span>多重共病常被漏診漏治，應主動在每位病人身上尋找；共病依一般標準治療，不因 COPD 而改變。</p>
+
+  <h3>4Ms 以人為中心照護 <span class="fig">Fig 5.1</span></h3>
+  <div class="duo">
+    <div class="panel"><h4>Mentation 心智</h4><p style="margin:0">了解病人的人生目標；篩檢憂鬱、焦慮與認知障礙。</p></div>
+    <div class="panel"><h4>Medications 藥物</h4><p style="margin:0">檢視並建立安全用藥計畫；調整劑量或停用不必要藥物。</p></div>
+    <div class="panel"><h4>Mobility 活動</h4><p style="margin:0">評估平衡與運動能力。</p></div>
+    <div class="panel"><h4>Morbidities 共病</h4><p style="margin:0">找出共病並處理。</p></div>
+  </div>
+
+  <h3>五大共病群 <span class="fig">Fig 5.2</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>群組</th><th>包含</th></tr></thead>
+    <tbody>
+      <tr><td>心血管</td><td>高血壓、心衰竭、冠心病、心律不整、肺高壓</td></tr>
+      <tr><td>呼吸</td><td>肺癌、氣喘、睡眠呼吸障礙、間質性肺病、支氣管擴張症</td></tr>
+      <tr><td>代謝</td><td>糖尿病、脂肪肝、肥胖、胃食道逆流</td></tr>
+      <tr><td>心智</td><td>憂鬱與焦慮、認知障礙</td></tr>
+      <tr><td>多器官組織流失（MOLT）</td><td>骨質疏鬆、肌少症、腎衰竭、貧血（與肺氣腫同屬組織流失表現）</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>臨床重點</h3>
+  <ul class="pts">
+    <li>中度或重度惡化期間及之後 <b>1 年內</b>，重大心血管事件風險顯著上升。</li>
+    <li>肺癌是主要死因：有吸菸史者每年低劑量 CT 篩檢；非吸菸所致 COPD 目前不建議篩檢。肺癌危險因子包括年齡 &gt; 55、&gt; 30 包年、CT 肺氣腫、FEV1/FVC &lt; 0.7、BMI &lt; 25、家族史。</li>
+    <li>支擴症合併感染會加速進展、增加惡化與死亡。</li>
+    <li><span class="num">BMI &lt; 21</span> 死亡風險升高；<span class="num">BMI &gt; 30</span> 與代謝症候群、OSA 相關，OSA 以 CPAP 治療可降低死亡。</li>
+    <li>胃食道逆流增加惡化風險。</li>
+    <li>MOLT 可藉營養、肺部復健與處理骨鬆肌少改善。</li>
+    <li>肺高壓-COPD：第 1 群依 PAH 指引、第 3 群轉介有經驗的肺高壓中心、第 4 群依 CTEPH 指引（2022 ESC/ERS）。</li>
+    <li>共病照護計畫應簡化治療、減少多重用藥。</li>
+  </ul>
+
+  <h3><span class="new">新增</span>共病篩檢組合 <span class="fig">Fig 5.5–5.6</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>面向</th><th>初次評估</th><th>每年</th><th>每 3–5 年</th></tr></thead>
+    <tbody>
+      <tr><td>肺部</td><td>病史理學檢查、用藥、肺量計、胸部 X 光、HRCT、肺容積、DLco、SpO2</td><td>病史、用藥、肺量計、HRCT（癌篩）、SpO2</td><td>肺容積、DLco</td></tr>
+      <tr><td>心臟</td><td>心電圖、NT-proBNP</td><td>心電圖、NT-proBNP</td><td>—</td></tr>
+      <tr><td>心智</td><td>PHQ-2、GAD-2、MMSE</td><td>PHQ-2</td><td>GAD-2</td></tr>
+      <tr><td>症狀與睡眠</td><td>mMRC、CAAT、Epworth 或 STOP-BANG</td><td>mMRC、CAAT</td><td>Epworth 或 STOP-BANG</td></tr>
+      <tr><td>活動與骨骼</td><td>6MWD、SARC-F、DXA</td><td>6MWD</td><td>DXA</td></tr>
+      <tr><td>血液</td><td>CBC 與分類、血糖與 HbA1c、GFR、肝功能</td><td>—</td><td>血糖、HbA1c、肌酸酐、GFR、肝功能</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- CHAPTER 6 -->
+<section class="ch wrap" id="ch6">
+  <div class="chhead"><span class="chno">CH 6</span><h2>人工智慧與新興科技</h2></div>
+  <p class="chsub"><span class="new">2026 新章</span>AI 可協助 COPD 診斷、評估、照護與預後預測，但上線臨床前必須審慎評估風險與限制。GOLD 不指定任何特定 AI 工具。</p>
+
+  <h3>應用方向</h3>
+  <ul class="pts">
+    <li>AI 輔助肺量計判讀，減少主觀差異、加快診斷。</li>
+    <li>CT 影像深度學習偵測與分期。</li>
+    <li>穿戴式裝置與遠距監測，結合縱向資料預測惡化。</li>
+    <li>整合多重共病與個人化治療路徑的決策支援。</li>
+    <li>遠距醫療：虛擬、混合與實體照護模式可改善可近性與成本；肺部復健與自我管理可遠距進行，但與實體比較的證據仍在累積。</li>
+  </ul>
+
+  <h3>主要 AI 模型 <span class="fig">Fig 6.1</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>名稱</th><th>概念</th></tr></thead>
+    <tbody>
+      <tr><td>機器學習 ML</td><td>從資料學習規律，不需逐條寫規則</td></tr>
+      <tr><td>監督式學習</td><td>用已標註答案的資料訓練</td></tr>
+      <tr><td>非監督式學習</td><td>無標註資料中找隱藏的群組</td></tr>
+      <tr><td>強化學習 RL</td><td>依獎懲回饋反覆試錯</td></tr>
+      <tr><td>深度學習 DL</td><td>多層神經網路自動擷取特徵</td></tr>
+      <tr><td>自然語言處理 NLP</td><td>分析與產生病歷等文字</td></tr>
+      <tr><td>大型語言模型 LLM</td><td>以大量文本訓練、可處理多種語言任務</td></tr>
+      <tr><td>基礎模型</td><td>用多樣資料訓練後微調到不同任務</td></tr>
+      <tr><td>生成式 AI</td><td>產生新的文字、影像或分子</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>風險與對策 <span class="fig">Fig 6.2</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>風險類型</th><th>風險</th><th>對策</th></tr></thead>
+    <tbody>
+      <tr><td>臨床</td><td>誤診、過度依賴、偏差結果</td><td>嚴謹驗證、人員把關、偏差測試</td></tr>
+      <tr><td>資料</td><td>資料品質差、訓練資料偏差、隱私外洩</td><td>資料清理、多元資料集、資安防護</td></tr>
+      <tr><td>技術</td><td>黑盒子、泛化能力差、資料漂移</td><td>可解釋模型、重新訓練、外部驗證</td></tr>
+      <tr><td>倫理法律</td><td>責任歸屬不明、知情同意、不平等</td><td>責任架構、透明溝通、公平可近</td></tr>
+      <tr><td>營運</td><td>流程整合困難、法規複雜、維護成本高</td><td>使用者導向設計、法規對接、持續監測</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- SHARE -->
+<section class="ch wrap" id="share">
+  <div class="chhead"><span class="chno">QR</span><h2>掃描分享本頁</h2></div>
+  <div class="share">
+    <div id="qr" aria-label="本頁網址 QR code"></div>
+    <div>
+      <p>請聽眾用手機相機掃描，即可開啟本頁。點「放大顯示」可在投影上全螢幕呈現 QR code。</p>
+      <p class="url" id="url"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:inherit">
+        <button class="btn" id="big" type="button">放大顯示</button>
+        <button class="btn ghost" id="copy" type="button">複製網址</button>
+      </div>
+      <p class="note" id="copied" style="margin-top:8px" hidden>已複製</p>
+      <p class="note" style="margin-top:12px">想看完整英文原文？請至 <a href="https://goldcopd.org/2026-gold-report-and-pocket-guide/" target="_blank" rel="noopener">GOLD 官方網站</a> 下載 2026 Report 與 Pocket Guide。</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <p><b>說明：</b>本頁為教學用中文摘要，由講者依公開資料改寫整理，非 GOLD 官方文件，亦不取代臨床判斷。內容與數值請以 GOLD 英文原版為準。</p>
+  <ol>
+    <li>Global Initiative for Chronic Obstructive Lung Disease. Global Strategy for the Diagnosis, Management, and Prevention of COPD: 2026 Report. 官方下載頁：<a href="https://goldcopd.org/2026-gold-report-and-pocket-guide/" target="_blank" rel="noopener" style="word-break:break-all">goldcopd.org/2026-gold-report-and-pocket-guide/</a></li>
+    <li>GOLD 2026 Pocket Guide (v1.1, Nov 2025) 與 GOLD 2026 Key Changes Summary.</li>
+    <li>Celli BR, et al. The Rome Proposal. Am J Respir Crit Care Med 2021;204:1251-8.</li>
+    <li>Singh D, et al. Is Disease Stability an Attainable COPD Treatment Goal? Am J Respir Crit Care Med 2025;211:452-63.</li>
+    <li>Bhatt SP, et al. N Engl J Med 2023 (BOREAS); 2024 (NOTUS). Sciurba FC, et al. N Engl J Med 2025 (MATINEE).</li>
+  </ol>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var num=function(id){var v=$(id).value;return v===''?null:Number(v)};
+
+  /* ---------- ABE tool ---------- */
+  function abe(){
+    var mod=num('a-mod')||0, sev=num('a-sev')||0, mmrc=Number($('a-mmrc').value), caat=num('a-caat'), eos=num('a-eos');
+    var out=$('a-out'), g, rx, cls, why=[];
+    var symHigh = (caat!==null ? caat>=10 : false) || mmrc>=2;
+    if(mod+sev>=1){
+      g='E'; cls='ge';
+      why.push('過去一年 '+(mod+sev)+' 次中度或重度惡化（2026 門檻 ≥1）');
+      if(eos!==null && eos>=300){ rx='LABA + LAMA，可考慮 LABA + LAMA + ICS'; why.push('eos '+eos+' ≥ 300，支持加 ICS'); }
+      else { rx='LABA + LAMA'; if(eos!==null){ why.push(eos<100?'eos '+eos+' < 100，不支持 ICS':'eos '+eos+' < 300，先用雙支擴'); } }
+    } else if(symHigh){
+      g='B'; cls='gb'; rx='LABA + LAMA'; why.push('無惡化，症狀多（mMRC ≥2 或 CAAT ≥10）');
+    } else {
+      g='A'; cls='ga'; rx='一種支氣管擴張劑'; why.push('無惡化，症狀少（mMRC 0–1 且 CAAT <10）');
+    }
+    if(sev>=1) why.push('曾因惡化住院：強烈支持使用 ICS 的因素之一');
+    out.className='result '+cls;
+    out.innerHTML='<div class="tag">GOLD 分組</div><div class="big">'+g+' 組</div><div><b>初始治療：</b>'+rx+'</div><ul>'+why.map(function(w){return '<li>'+w+'</li>'}).join('')+'</ul>';
+  }
+  ['a-mod','a-sev','a-mmrc','a-caat','a-eos'].forEach(function(id){$(id).addEventListener('input',abe)});
+  abe();
+
+  /* ---------- Rome tool ---------- */
+  function rome(){
+    var vas=num('r-vas'), rr=num('r-rr'), hr=num('r-hr'), sat=num('r-sat'), chg=$('r-chg').checked, crp=num('r-crp');
+    var pao2=num('r-pao2'), paco2=num('r-paco2'), ph=num('r-ph');
+    var c=[
+      ['呼吸困難 VAS ≥ 5', vas!==null && vas>=5],
+      ['呼吸速率 ≥ 24', rr!==null && rr>=24],
+      ['心跳 ≥ 95', hr!==null && hr>=95],
+      ['SaO2 < 92% 和/或下降 > 3%', (sat!==null && sat<92) || chg],
+      ['CRP ≥ 10 mg/L', crp!==null && crp>=10]
+    ];
+    var n=c.filter(function(x){return x[1]}).length;
+    var hypox = pao2!==null && pao2<=60;
+    var acid = paco2!==null && ph!==null && paco2>45 && ph<7.35;
+    var lvl, cls, msg;
+    if(n>=3 && (hypox||acid)){ lvl='重度'; cls='sev'; msg='達中度門檻，且血氣顯示'+(hypox?'低血氧 PaO2 ≤ 60':'')+(hypox&&acid?'、':'')+(acid?'高碳酸合併酸中毒':'')+'。評估 NIV 與加護需求。'; }
+    else if(n>=3){ lvl='中度'; cls='mod'; msg='5 項中 '+n+' 項達標。建議抽動脈血氣確認是否為重度。'; }
+    else { lvl='輕度'; cls='mild'; msg='5 項中 '+n+' 項達標（需 ≥3 項才是中度）。'; }
+    if(n<3 && (hypox||acid)) msg+=' 血氣已異常，請重新評估臨床狀況。';
+    var out=$('r-out'); out.className='result '+cls;
+    out.innerHTML='<div class="tag">Rome 嚴重度</div><div class="big">'+lvl+'</div><div>'+msg+'</div><ul class="crit">'+c.map(function(x){return '<li class="'+(x[1]?'hit':'')+'">'+x[0]+'</li>'}).join('')+'</ul>';
+  }
+  ['r-vas','r-rr','r-hr','r-sat','r-chg','r-crp','r-pao2','r-paco2','r-ph'].forEach(function(id){$(id).addEventListener('input',rome)});
+  rome();
+
+  /* ---------- rail highlight ---------- */
+  var links=[].slice.call(document.querySelectorAll('.rail a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+      links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)});
+      var on=document.querySelector('.rail a.on'); if(on&&on.scrollIntoView){try{on.scrollIntoView({block:'nearest',inline:'center'})}catch(_){}}
+    }})},{rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('section.ch').forEach(function(s){io.observe(s)});
+  }
+
+  /* ---------- QR ---------- */
+  var SHARE_URL=location.href.split('#')[0];
+  if(SHARE_URL.indexOf('__')===0){ SHARE_URL=location.href.split('#')[0]; }
+  $('url').textContent=SHARE_URL;
+  function makeQR(el,size){
+    el.innerHTML='';
+    if(window.QRCode){ new QRCode(el,{text:SHARE_URL,width:size,height:size,colorDark:'#13222A',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M}); }
+    else { el.textContent='QR code 載入失敗，請使用下方網址'; }
+  }
+  makeQR($('qr'),400);
+  $('big').addEventListener('click',function(){
+    var ov=document.createElement('div'); ov.className='overlay'; ov.setAttribute('role','dialog');
+    var b=document.createElement('div'); b.className='bigqr'; ov.appendChild(b);
+    var p=document.createElement('p'); p.textContent='GOLD 2026 肺阻塞重點導覽 · 點任意處關閉'; ov.appendChild(p);
+    document.body.appendChild(ov); makeQR(b,800);
+    ov.addEventListener('click',function(){ov.remove()});
+    document.addEventListener('keydown',function k(e){if(e.key==='Escape'){ov.remove();document.removeEventListener('keydown',k)}});
+  });
+  $('copy').addEventListener('click',function(){
+    var done=function(){$('copied').hidden=false;setTimeout(function(){$('copied').hidden=true},1800)};
+    try{ navigator.clipboard.writeText(SHARE_URL).then(done,function(){selectUrl()}); }catch(_){ selectUrl(); }
+    function selectUrl(){var r=document.createRange();r.selectNodeContents($('url'));var s=getSelection();s.removeAllRanges();s.addRange(r);}
+  });
+})();
+</script>
+
+</body>
+</html>
